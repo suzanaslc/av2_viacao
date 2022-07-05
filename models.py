@@ -28,7 +28,7 @@ class Parada(BaseModel):
 
 class Passageiro(BaseModel):
     nome = CharField()
-    rg = CharField()
+    rg = CharField(unique=True)
 
 
 class Reserva(BaseModel):

@@ -1,6 +1,8 @@
 import traceback
 
-from dto import Compra
+from peewee import IntegrityError
+
+from dto import Compra, PassageiroDto
 from models import Passageiro, Onibus, Reserva, Local, Parada, db
 
 
@@ -64,5 +66,14 @@ def reservar_passagem(id_passageiro: int, compra: Compra):
         else:
             raise Exception("Sem lugares disponiveis")
     except Exception as e:
+        traceback.format_exc()
+        raise e
+
+
+def cadastrar_passageiro(passageiroDto: PassageiroDto):
+    try:
+        passageiro = Passageiro(nome=passageiroDto.nome, rg=passageiroDto.rg)
+        passageiro.save()
+    except IntegrityError as e:
         traceback.format_exc()
         raise e
