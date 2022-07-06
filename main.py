@@ -1,6 +1,6 @@
 import traceback
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 import services
 from dto import Compra, PassageiroDto
@@ -15,7 +15,7 @@ def reserva_passagem(id_passageiro: int, compra: Compra):
         return {'resultado': "sucesso"}
     except Exception as e:
         traceback.format_exc()
-        raise e
+        raise HTTPException(status_code=404, detail="Local não encontrado")
 
 
 @app.post("/passageiro")
@@ -25,4 +25,4 @@ def cadastrar_passageiro(passageiro: PassageiroDto):
         return {"resultado": "sucesso"}
     except Exception as e:
         traceback.format_exc()
-        raise e
+        raise HTTPException(status_code=400, detail="Usuário já cadastrado")
